@@ -31,6 +31,13 @@ class Chef
         @provider = Chef::Provider::Database::PostgresqlUser
         @schema_name = nil
         @allowed_actions.push(:create, :drop, :grant, :grant_schema)
+        @superuser = nil
+        @createdb = nil
+        @createuser = nil
+        @login = nil
+        @inherit = nil
+        @replication = nil
+        @connection_limit = nil
       end
 
       def schema_name(arg=nil)
@@ -41,6 +48,45 @@ class Chef
         )
       end
 
+      def superuser(arg=nil)
+        set_or_return(
+          :superuser,
+          arg,
+          :equal_to => [true, false]
+        )
+      end
+
+      def createdb(arg=nil)
+        set_or_return(
+          :createdb,
+          arg,
+          :equal_to => [true, false]
+        )
+      end
+
+      def createuser(arg=nil)
+        set_or_return(
+          :createuser,
+          arg,
+          :equal_to => [true, false]
+        )
+      end
+
+      def login(arg=nil)
+        set_or_return(
+          :login,
+          arg,
+          :equal_to => [true, false]
+        )
+      end
+
+      def connection_limit(arg=nil)
+        set_or_return(
+          :connection_limit,
+          arg,
+          :kind_of => Fixnum
+        )
+      end
     end
   end
 end

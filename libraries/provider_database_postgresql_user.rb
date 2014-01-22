@@ -36,6 +36,13 @@ class Chef
 
         def action_create
           unless exists?
+            query = "CREATE USER \"#{@new_resource.username}\" WITH PASSWORD '#{@new_resource.password}'"
+            query << " SUPERUSER" if @new_resource.superuser
+            query << " CREATEDB" if @new_resource.createdb
+            query << " CREATEUSER" if @new_resource.createuser
+            query << " LOGIN" if @new_resource.login
+            query << " CONNLIMIT #{@new_resource.connection_limit}" if @new_resource.connection_limit
+
             begin
               db("postgres").query(query)
               @new_resource.updated_by_last_action(true)
